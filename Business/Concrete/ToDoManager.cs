@@ -7,6 +7,7 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Business.Concrete
     {
         IToDoDal _toDoDal;
         IUserService _userService;
-        public ToDoManager(IToDoDal toDoDal,IUserService userService)
+        public ToDoManager(IToDoDal toDoDal, IUserService userService)
         {
             _toDoDal = toDoDal;
             _userService = userService;
@@ -27,8 +28,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ToDoValidator))]
         public IResult Add(ToDo toDo)
         {
-            //userId angulardan tokendan gelecek ve todo user a kayıtlı olacak
-            toDo.StartingDate = DateTime.Now;
             _toDoDal.Add(toDo);
             return new SuccessResult(Messages.ToDoAdded);
         }
@@ -55,15 +54,17 @@ namespace Business.Concrete
         public IDataResult<List<ToDo>> GetAllUserToDo(int userId)
         {
             var userResult = _userService.GetById(userId);
-            var userToDoResult = _toDoDal.GetAll(t=>t.UserId == userId);
-            var result = this.ToDoControl(userToDoResult.Count);
+            var userToDoResult = _toDoDal.GetAll(t => t.UserId == userId).OrderByDescending(t => t.StartingDate).ToList();
+            var result = this.ToDoControl(userToDoResult);
             return new SuccessDataResult<List<ToDo>>(userToDoResult, userResult.Data.FirstName + " " + result.Message);
         }
 
+        [ValidationAspect(typeof(ToDoValidator))]
         public IResult Update(ToDo toDo)
         {
             toDo.StartingDate = _toDoDal.Get(t => t.Id == toDo.Id).StartingDate;
-            if (!toDo.Status)
+            var endDate = _toDoDal.Get(t => t.Id == toDo.Id).EndingDate;
+            if (!toDo.Status && endDate == null)
             {
                 toDo.EndingDate = DateTime.Now;
             }
@@ -74,18 +75,30 @@ namespace Business.Concrete
 
 
         //BusinessRules
-        public IResult ToDoControl(int toDoCount)
+        public IResult ToDoControl(List<ToDo> toDos)
         {
-            string message;
-            if (toDoCount!=0)
+            string message = "Hiç İş Yok :(";
+            foreach (var toDo in toDos)
             {
-                message = "Yapılacak İşlerin Var :D";
-            }
-            else
-            {
-                message = "Hiç İş Yok :(";
+                if (toDo.Status != false)
+                {
+                    message = "Yapılacak İşlerin Var :D";
+                    return new SuccessResult(message);
+                }
+                else
+                {
+                    message = "Hiç İş Yok :(";
+                }
+
             }
             return new SuccessResult(message);
+        }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<ToDoDto>> GetAllDetails()
+        {
+            var result = _toDoDal.GetAllDetails().OrderByDescending(t=>t.TodoId).ToList();
+            return new SuccessDataResult<List<ToDoDto>>(result,Messages.GetAllDetails);
         }
     }
 }

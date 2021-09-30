@@ -20,5 +20,6 @@ namespace DataAccess.Concrete.EntityFramework.Context
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public DbSet<ToDo> ToDos { get; set; }
+        public DbSet<FeedBack> FeedBacks { get; set; }
     }
 }

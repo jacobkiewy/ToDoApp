@@ -1,8 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
+    
     public class UserManager : IUserService
     {
         IUserDal _userDal;
@@ -24,6 +27,13 @@ namespace Business.Concrete
         {
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
+        }
+
+        [SecuredOperation("admin")]
+        public IDataResult<List<UserDto>> GetAll()
+        {
+            var result = _userDal.GetAll();
+            return new SuccessDataResult<List<UserDto>>(result, Messages.UsersListed);
         }
 
         public IDataResult<User> GetById(int userId)

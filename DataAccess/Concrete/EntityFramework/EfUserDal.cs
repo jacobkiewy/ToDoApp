@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework.Context;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,22 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfUserDal : EfEntityRepositoryBase<User, ToDoContext>, IUserDal
     {
+        public List<UserDto> GetAll()
+        {
+            using (var context = new ToDoContext())
+            {
+                var result = (from user in context.Users
+                              select new UserDto
+                              {
+                                  UserId = user.Id,
+                                  FullName = user.FirstName + ' ' + user.LastName,
+                                  Email = user.Email,
+                                  Status = user.Status
+                              }).ToList();
+                return result.ToList();
+            }
+        }
+
         public List<OperationClaim> getClaims(User user)
         {
             using (var context = new ToDoContext())

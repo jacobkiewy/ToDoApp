@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,19 +7,19 @@ namespace ToDoAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class FeedBackController : ControllerBase
     {
-        private IUserService _userService;
+        IFeedBackService _feedBackService;
 
-        public UserController(IUserService userService)
+        public FeedBackController(IFeedBackService feedBackService)
         {
-            _userService = userService;
+            _feedBackService = feedBackService;
         }
 
-        [HttpGet("getallusers")]
-        public IActionResult GetAllUsers()
+        [HttpPost("add")]
+        public IActionResult Add(FeedBack feedBack)
         {
-            var result = _userService.GetAll();
+            var result = _feedBackService.Add(feedBack);
             if (result.Success)
             {
                 return Ok(result);
@@ -26,20 +27,20 @@ namespace ToDoAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("email")]
-        private IActionResult GetByMail(string email)
+        [HttpPost("delete")]
+        public IActionResult Delete(FeedBack feedBack)
         {
-            var result = _userService.GetByMail(email);
+            var result = _feedBackService.Delete(feedBack);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpGet("getclaims")]
-        private IActionResult GetClaims(int userId)
+        [HttpGet("getall")]
+        public IActionResult GetAll()
         {
-            var result = _userService.GetClaims(userId);
+            var result = _feedBackService.GetAll();
             if (result.Success)
             {
                 return Ok(result);

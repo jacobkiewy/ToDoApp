@@ -11,7 +11,7 @@ namespace Business.Constants
     public class Messages
     {
         public static string Message = "Bu Bir Mesaj";
-        public static string AuthorizationDenied="Yetki Yok!";
+        public static string AuthorizationDenied = "Yetki Yok!";
         public static string ToDoListed = "ToDo Listelendi";
         public static string UserAdded = "Kullanıcı Eklendi";
         public static string UserNotFound = "Kullanıcı Bulunamadı!";
@@ -23,6 +23,12 @@ namespace Business.Constants
         public static string ToDoAdded = "ToDo Eklendi";
         public static string ToDoDeleted = "ToDo Silindi";
         public static string ToDoUpdated = "ToDo Güncellendi";
+        public static string GetAllDetails = "Bütün Veriler Listelendi";
+        public static string UsersListed = "Kullanıcılar Listelendi";
+        public static string AddedFeedBack = "Geri Bildirim Gönderildi. Teşekkürler!";
+        public static string DeletedFeedBack = "FeedBack Silindi";
+        public static string ListedFeedBack = "FeedBacks Listelendi";
+
 
         //FluentValidation Message
         public static string ToDoTitleNotEmpty = "Başlığın Boş Olamaz";
@@ -36,5 +42,6 @@ namespace Business.Constants
         public static string PasswordMustNotBeEmpty = "Şifre Boş Olamaz";
         public static string PasswordQualityControl = "Şifreniz: 'Büyük Küçük Harf ve Rakam' İçermelidir!";
         public static string PasswordMinLengthError = "Şifreniz En Az 6 Karakter Olmalı";
+        
     }
 }
