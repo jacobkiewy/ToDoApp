@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Aspect\Autofac\Cache\" />
-    <Folder Include="Aspect\Autofac\Transaction\" />
-    <Folder Include="Aspect\Autofac\Performance\" />
     <Folder Include="Utilities\Helper\" />
   </ItemGroup>
 

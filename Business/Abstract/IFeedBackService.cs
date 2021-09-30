@@ -12,6 +12,7 @@ namespace Business.Abstract
     {
         IResult Add(FeedBack feedBack);
         IResult Delete(FeedBack feedBack);
+        IResult Update(FeedBack feedBack);  
         IDataResult<List<FeedBack>> GetAll();
         IDataResult<FeedBack> Get();
     }

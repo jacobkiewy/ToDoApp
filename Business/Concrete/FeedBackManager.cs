@@ -44,8 +44,14 @@ namespace Business.Concrete
         [SecuredOperation("admin")]
         public IDataResult<List<FeedBack>> GetAll()
         {
-            var result = _feedBackDal.GetAll();
+            var result = _feedBackDal.GetAll().OrderByDescending(f=>f.Id).ToList();
             return new SuccessDataResult<List<FeedBack>>(result,Messages.ListedFeedBack);
+        }
+        [SecuredOperation("admin")]
+        public IResult Update(FeedBack feedBack)
+        {
+            _feedBackDal.Update(feedBack);
+            return new SuccessResult();
         }
     }
 }

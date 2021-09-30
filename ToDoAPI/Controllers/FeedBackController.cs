@@ -37,6 +37,16 @@ namespace ToDoAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpPost("update")]
+        public IActionResult Update(FeedBack feedBack)
+        {
+            var result = _feedBackService.Update(feedBack);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
