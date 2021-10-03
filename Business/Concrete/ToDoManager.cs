@@ -54,7 +54,7 @@ namespace Business.Concrete
         public IDataResult<List<ToDo>> GetAllUserToDo(int userId)
         {
             var userResult = _userService.GetById(userId);
-            var userToDoResult = _toDoDal.GetAll(t => t.UserId == userId).OrderByDescending(t => t.StartingDate).ToList();
+            var userToDoResult = _toDoDal.GetAll(t => t.UserId == userId).OrderByDescending(t => t.Id).ToList();
             var result = this.ToDoControl(userToDoResult);
             return new SuccessDataResult<List<ToDo>>(userToDoResult, userResult.Data.FirstName + " " + result.Message);
         }

@@ -28,7 +28,7 @@ namespace Business.Constants
         public static string AddedFeedBack = "Geri Bildirim Gönderildi. Teşekkürler!";
         public static string DeletedFeedBack = "FeedBack Silindi";
         public static string ListedFeedBack = "FeedBacks Listelendi";
-
+        public static string UserBanned = "Giriş Engellendi";
 
         //FluentValidation Message
         public static string ToDoTitleNotEmpty = "Başlığın Boş Olamaz";

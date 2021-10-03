@@ -58,5 +58,14 @@ namespace Business.Concrete
             var result = _userDal.getClaims(user);
             return new SuccessDataResult<List<OperationClaim>>(result);
         }
+
+        [SecuredOperation("admin")]
+        public IResult Update(UserDto user)
+        {
+            var usr =_userDal.Get(u => u.Id == user.UserId);
+            usr.Status = user.Status;
+            _userDal.Update(usr);
+            return new SuccessResult();
+        }
     }
 }

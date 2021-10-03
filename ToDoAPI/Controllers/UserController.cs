@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,16 @@ namespace ToDoAPI.Controllers
         public IActionResult GetAllUsers()
         {
             var result = _userService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("update")]
+        public IActionResult Update(UserDto user)
+        {
+            var result = _userService.Update(user);
             if (result.Success)
             {
                 return Ok(result);
